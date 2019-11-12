@@ -13,6 +13,10 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
+app.use(router);
+app.use(cors());
+
+
 io.on('connection', (socket) => {
     socket.on('join', ({name, room}, callback) => {
         const {error, user} = addUser({id: socket.id, name, room});
@@ -51,8 +55,5 @@ io.on('connection', (socket) => {
 The admin-generated messages will be 'message' and
 the user-generated message will be 'sendMessage'
 */
-
-app.use(router);
-app.use(cors());
 
 server.listen(PORT, () => console.log(`Server has started on port ${PORT}`));
